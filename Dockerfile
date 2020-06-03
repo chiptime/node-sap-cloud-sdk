@@ -2,19 +2,20 @@ FROM node:12.2.0
 
 WORKDIR /app/
 
+#install SAP Cloud SDK CLI
 RUN npm set @sap:registry=https://npm.sap.com
 
 # --unsafe-perm=true --allow-root for fix error in install global dependency
 RUN npm install -g @sap/cds-dk --unsafe-perm=true --allow-root
 
-COPY ./package.json .
 
 #install dependencies
+COPY ./package.json .
 
-#RUN npm install 
+RUN npm install 
 
-#COPY . .
+COPY . .
 
-#CMD node index.js
+WORKDIR /app/packages/bookshop
 
-#EXPOSE 8080
+ENTRYPOINT cds watch
